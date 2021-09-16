@@ -1,14 +1,16 @@
 const express = require('express')
-const { connect } = require('../database.js');
-const db = connect();
 
 const HAMSTERS = 'hamsters'
 
 const app = express()
 const PORT = process.env.PORT || 1337
 
-
 //hamsters = []
+
+//Middleware
+app.use("/", express.static(__dirname + "/frontend"))
+
+//Logger
 
 app.get('/hamsters', (req, res) => {
 
