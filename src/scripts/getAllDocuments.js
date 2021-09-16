@@ -1,5 +1,3 @@
-const { arrayBuffer } = require('stream/consumers');
-const { getHeapSnapshot } = require('v8');
 const database = require('../database.js');
 const connect = database.connect;
 const db = connect();
@@ -19,6 +17,8 @@ async function getAll() {
         console.log('No documents in collection.')
         return
     }
+
+    const array = []
 
     await hamstersSnapshot.forEach( async docRef => {
         const data = await docRef.data()
