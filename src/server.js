@@ -1,19 +1,32 @@
 const express = require('express')
-const { connect } = require('../database.js');
-const db = connect();
-
-const HAMSTERS = 'hamsters'
-
-const app = express()
-const PORT = process.env.PORT || 1337
+const app = express();
+const hamstersRouter = require('./routes/hamsters.js')
+const cors = require('cors')
 
 
-//hamsters = []
+const PORT = process.env.PORT || 1337;
 
-app.get('/hamsters', (req, res) => {
 
+//Middleware
+
+app.use("/", express.static(__dirname + "/frontend"))
+//lägg till /images/hamster-siffra.jpg 
+//för att få upp hamsterbilder
+app.use( express.urlencoded({ extended: true }) )
+app.use( express.json() )
+app.use(cors())
+
+//Logger
+app.use( (req, res, next) => {
+    console.log(` ${req.method} ${req.url}, req.body`);
+    next()
 })
 
+// Routes endpoints
+app.use('/hamsters', hamstersRouter)
+
+
+// Start server
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}.`);
 })
